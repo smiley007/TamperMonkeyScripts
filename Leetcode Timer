@@ -1,0 +1,49 @@
+// ==UserScript==
+// @name         Timer
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://leetcode.com/problems/*
+// @icon         https://www.google.com/s2/favicons?domain=google.com
+// @require      http://code.jquery.com/jquery-3.4.1.min.js
+// @require      https://daokun.webs.com/jquery.stopwatch.js
+// @grant        none
+
+// ==/UserScript==
+
+
+function pretty_time_string(num) {
+    return ( num < 10 ? "0" : "" ) + num;
+}
+
+(function() {
+    'use strict';
+    var $ = window.jQuery;
+    var start = new Date;
+    var count = 0;
+    setInterval(function() {
+        console.log(++count);
+        if ($("#timer").length == 0) {
+            $(".editor-wrapper__1ru6 .btns__1OeZ").prepend("<div id = 'timer'></div>");
+            $("#timer").css({"margin":"0 10px", "color" : "dimgray"});
+        }
+        var total_seconds = (new Date - start) / 1000;
+
+        var hours = Math.floor(total_seconds / 3600);
+        total_seconds = total_seconds % 3600;
+
+        var minutes = Math.floor(total_seconds / 60);
+        total_seconds = total_seconds % 60;
+
+        var seconds = Math.floor(total_seconds);
+
+        hours = pretty_time_string(hours);
+        minutes = pretty_time_string(minutes);
+        seconds = pretty_time_string(seconds);
+
+        var currentTimeString = hours + ":" + minutes + ":" + seconds;
+
+        $('#timer').text(currentTimeString);
+    }, 1000);
+})();
